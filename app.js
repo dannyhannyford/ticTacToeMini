@@ -25,6 +25,7 @@ class Board {
             row.forEach( (col, cdx) => {
                 let box = document.createElement('td');
                 box.appendChild(document.createTextNode(col));
+                box.addEventListener('click', () => this.mark(idx,cdx));
                 tRow.appendChild(box)
             })
             tableBody.append(tRow);
