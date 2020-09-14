@@ -34,7 +34,9 @@ class Board {
         //table
         document.body.appendChild(table);
         // //Restart button
-        //document.body.appendChild();
+        const rsButton = document.createElement('button');
+        rsButton.innerText = 'Restart Game';
+        document.body.appendChild(rsButton);
     }
     
     renderText() {
@@ -54,6 +56,8 @@ class Board {
         oldTable.parentNode.removeChild(oldTable);
         let head = document.querySelector('header');
         head.parentNode.removeChild(head);
+        let button = document.querySelector('button');
+        button.parentNode.removeChild(button);
     }
 
        
