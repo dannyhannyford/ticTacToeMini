@@ -1,16 +1,19 @@
 class Board {
     constructor() {
         this.board = [
-            [[], [], []],
+            [['X'], ['X'], ['X']],
             [[], [], []],
             [[], [], []]
         ];
         this.x = 'X';
         this.o = 'O';
         this.player = this.x;
-        
+        this.gameOver = false;
+        this.winner = "Draw";
         this.render();
+        this.renderText();
     }
+
     render() {
         //on click mark(this.player, y x)
         const table = document.createElement('table');
@@ -28,48 +31,82 @@ class Board {
         })
 
         table.appendChild(tableBody);
-        // //Restart button
-        // table.appendChild()
+        //table
         document.body.appendChild(table);
+        // //Restart button
+        //document.body.appendChild();
+    }
+    
+    renderText() {
+        //currentPlayer
+        const header = document.createElement('header');
+        if(this.gameOver) {
+            header.innerText = this.winner+ " wins!";
+            document.body.appendChild(header);
+        } else {
+            header.innerText = this.player+ "'s Turn";
+            document.body.appendChild(header);
+        }
     }
 
     clear() {
         let oldTable = document.querySelector('table');
         oldTable.parentNode.removeChild(oldTable);
+        let head = document.querySelector('header');
+        head.parentNode.removeChild(head);
     }
 
+       
+        
+    //reset board
+    boardWipe() {
+        this.board.forEach( row => {
+            row.forEach( col  => {
+                col.pop();
+            })
+        })
+        this.render();
+        this.player = this.x;
+        this.renderText();
+    }
 
-        //y === top middle bottom
-        //x === left middle right
-    mark(player, y, x) {
-        if (player === this.x) {
+    //y === top middle bottom
+    //x === left middle right
+    mark(y, x) {
+        if (this.player === this.x) {
             if (this.board[y][x].length === 0) {
-                this.board[y][x].push(this.x);
+                this.board[y][x].push('X');
                 this.clear();
-                this.render();
                 this.checkBoardState();
-                this.player = this.y;
+                this.render();
+                if (this.gameOver === false) {
+                    this.player = this.o;
+                }
+                this.renderText();
             }
         } else {
             if (this.board[y][x].length === 0) {
-                this.board[y][x].push(this.y);
+                this.board[y][x].push('O');
                 this.clear();
-                this.render();
                 this.checkBoardState();
-                this.player = this.x;
+                this.render();
+                if (this.gameOver === false) {
+                    this.player = this.x;
+                }
+                this.renderText();
             }
         }
     }
 
     checkBoardState() {
         //checking horizontally
-        //checks if board is full for draw
+        //checks if board is full for draw condition
         let total = 0;
         this.board.forEach( row => {
             let ocount = 0;
             let xcount = 0;
             row.forEach( col => {
-                if(col === this.x) {
+                if(col[0] === 'X') {
                     xcount++;
                     total++;
                     if (xcount === 3) {
@@ -78,13 +115,13 @@ class Board {
                         this.win();
                     }
                 }
-                if ( col === this.o) {
+                if (col === ['O']) {
                     ocount++
                     total++
                     if (ocount === 3) {
-                        win(this.player);
+                        this.win(this.player);
                     } else if (total === 9) {
-                        win();
+                        this.win();
                     }
                 }
             });
@@ -95,13 +132,14 @@ class Board {
             let xcount = 0;
             let ocount = 0;
             this.board.forEach( (row, rdx) => {
-                if(row[i] === 1) {
+                //console.log('row[i]', row[i]);
+                if(row[i] === 'X') {
                     xcount++;
                     if (xcount === 3) {
                         this.win(this.player);
                     }
                 }
-                if ( row[i] === 0) {
+                if (row[i] === 'O') {
                     ocount++
                     if (ocount === 3) {
                         this.win(this.player);
@@ -110,45 +148,35 @@ class Board {
             })
         }
         //checking diagonally
+        //yes this is lazy
         total = 0;
-        if (this.board[1][1] === 0) {
-            if (this.board[0][0] === 0 && this.board [2][2] === 0) {
-                this.win(this.player)
+        if (this.board[1][1] === 'X') {
+            if (this.board[0][0] === 'X' && this.board [2][2] === 'X') {
+                this.win(this.player);
             }
-            if (this.board[2][0] === 0 && this.board[0][2] === 0) {
-                this.win(this.player)
+            if (this.board[2][0] === 'X' && this.board[0][2] === 'X') {
+                this.win(this.player);
             }
         }
-        if (this.board[1][1] === 1) {
-            if (this.board[0][0] === 1 && this.board [2][2] === 1) {
-                this.win(this.player)
+        if (this.board[1][1] === 'O') {
+            if (this.board[0][0] === 'O' && this.board [2][2] === 'O') {
+                this.win(this.player);
             }
-            if (this.board[2][0] === 1 && this.board[0][2] === 1) {
-                this.win(this.player)
+            if (this.board[2][0] === 'O' && this.board[0][2] === 'O') {
+                this.win(this.player);
             }
         }
     }
 
     //render winner or draw message
-    win(player = 'draw') {
-        if (player === this.x) {
-            console.log('X wins');
-        } else if (player === this.y) {
-            console.log('O wins');
-        } else {
-            console.log(player);
+    win(player) {
+        this.gameOver = true;
+        if (player) {
+            this.winner = this.player
         }
+        
     }
-    //reset board
-    boardWipe() {
-        this.board.forEach( row => {
-            row.forEach( col  => {
-                col.pop();
-            })
-        })
-        this.clear();
-        this.render();
-    }
+    
     
 
 }
