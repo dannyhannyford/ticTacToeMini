@@ -36,6 +36,7 @@ class Board {
         // //Restart button
         const rsButton = document.createElement('button');
         rsButton.innerText = 'Restart Game';
+        rsButton.addEventListener('click', () => this.boardWipe());
         document.body.appendChild(rsButton);
     }
     
@@ -69,8 +70,11 @@ class Board {
                 col.pop();
             })
         })
+        this.clear();
         this.render();
         this.player = this.x;
+        this.gameOver = false;
+        this.winner = 'Draw';
         this.renderText();
     }
 
