@@ -142,13 +142,13 @@ class Board {
             let ocount = 0;
             this.board.forEach( (row, rdx) => {
                 //console.log('row[i]', row[i]);
-                if(row[i] === 'X') {
+                if(row[i][0] === 'X') {
                     xcount++;
                     if (xcount >= 3) {
                         this.win(this.player);
                     }
                 }
-                if (row[i] === 'O') {
+                if (row[i][0] === 'O') {
                     ocount++
                     if (ocount >= 3) {
                         this.win(this.player);
@@ -158,19 +158,19 @@ class Board {
         }
         //checking diagonally
         //yes this is lazy
-        if (this.board[1][1] === 'X') {
-            if (this.board[0][0] === 'X' && this.board [2][2] === 'X') {
+        if (this.board[1][1][0] === 'X') {
+            if (this.board[0][0][0] === 'X' && this.board [2][2][0] === 'X') {
                 this.win(this.player);
             }
-            if (this.board[2][0] === 'X' && this.board[0][2] === 'X') {
+            if (this.board[2][0][0] === 'X' && this.board[0][2][0] === 'X') {
                 this.win(this.player);
             }
         }
-        if (this.board[1][1] === 'O') {
-            if (this.board[0][0] === 'O' && this.board [2][2] === 'O') {
+        if (this.board[1][1][0] === 'O') {
+            if (this.board[0][0][0] === 'O' && this.board [2][2][0] === 'O') {
                 this.win(this.player);
             }
-            if (this.board[2][0] === 'O' && this.board[0][2] === 'O') {
+            if (this.board[2][0][0] === 'O' && this.board[0][2][0] === 'O') {
                 this.win(this.player);
             }
         }
