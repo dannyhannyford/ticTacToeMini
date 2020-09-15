@@ -1,7 +1,7 @@
 class Board {
     constructor() {
         this.board = [
-            [['X'], ['X'], ['X']],
+            [[], [], []],
             [[], [], []],
             [[], [], []]
         ];
@@ -118,16 +118,16 @@ class Board {
                 if(col[0] === 'X') {
                     xcount++;
                     total++;
-                    if (xcount === 3) {
+                    if (xcount >= 3) {
                         this.win(this.player);
                     } else if (total === 9) {
                         this.win();
                     }
                 }
-                if (col === ['O']) {
+                if (col[0] === 'O') {
                     ocount++
                     total++
-                    if (ocount === 3) {
+                    if (ocount >= 3) {
                         this.win(this.player);
                     } else if (total === 9) {
                         this.win();
@@ -144,13 +144,13 @@ class Board {
                 //console.log('row[i]', row[i]);
                 if(row[i] === 'X') {
                     xcount++;
-                    if (xcount === 3) {
+                    if (xcount >= 3) {
                         this.win(this.player);
                     }
                 }
                 if (row[i] === 'O') {
                     ocount++
-                    if (ocount === 3) {
+                    if (ocount >= 3) {
                         this.win(this.player);
                     }
                 }
@@ -158,7 +158,6 @@ class Board {
         }
         //checking diagonally
         //yes this is lazy
-        total = 0;
         if (this.board[1][1] === 'X') {
             if (this.board[0][0] === 'X' && this.board [2][2] === 'X') {
                 this.win(this.player);
